@@ -71,7 +71,7 @@ resources:
   - name: risk-management-db
     type: com.sap.xs.hdi-container
     parameters:
-      service: hana # 'hanatrial' on trial landscapes
+      service: hanatrial # 'hanatrial' on trial landscapes
       service-plan: hdi-shared
     properties:
       hdi-service-name: ${service-name}
@@ -93,6 +93,9 @@ resources:
             description: View Risks
             role-template-references:
               - $XSAPPNAME.RiskViewer
+        oauth2-configuration:
+          redirect-uris:
+          - https://82cb4838trial-dev-risk-management-approuter.cfapps.us10-001.hana.ondemand.com/login/callback
         tenant-mode: dedicated
   
   - name: risk-management-destination-service

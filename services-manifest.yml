@@ -8,5 +8,5 @@ create-services:
     plan: 'broker'
 # ------------------------------------------------------------
   - name:   risk-management-db
-    broker: hana  # 'hanatrial' on trial landscapes
+    broker: hanatrial  # 'hanatrial' on trial landscapes
     plan: "hdi-shared"
