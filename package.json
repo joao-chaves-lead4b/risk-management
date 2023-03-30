@@ -1,10 +1,13 @@
 {
   "name": "risk-management",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "description": "Template for the Learning Journey Building side-by-side extensions on SAP BTP",
   "author": "m.haug@sap.com",
-  "license": "SAP SAMPLE CODE LICENSE",
-  "repository": "https://github.com/SAP-samples/sap-learning-extension-suite",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SAP-samples/sap-learning-extension-suite.git"
+  },
   "engines": {
     "node": ">=14"
   },
@@ -12,13 +15,18 @@
   "dependencies": {
     "@sap-cloud-sdk/http-client": "^2.5.0",
     "@sap/cds": "^6",
-    "express": "^4"
+    "express": "^4",
+    "hdb": "^0.19.0",
+    "@sap/xssec": "^3",
+    "passport": "^0"
   },
   "devDependencies": {
+    "@sap/ux-specification": "^1.108.0",
     "sqlite3": "^5.0.4"
   },
   "scripts": {
-    "start": "cds run"
+    "start": "cds run",
+    "watch-risks": "cds watch --open risks/webapp/index.html?sap-ui-xx-viewCache=false"
   },
   "eslintConfig": {
     "extends": "eslint:recommended",
@@ -45,12 +53,45 @@
       "require-atomic-updates": "off"
     }
   },
+  "sapux": [
+    "app/risks"
+  ],
   "cds": {
     "requires": {
       "API_BUSINESS_PARTNER": {
-        "kind": "odata-v2",
-        "model": "srv\\external\\API_BUSINESS_PARTNER"
+        "kind": "odata",
+        "model": "srv/external/API_BUSINESS_PARTNER",
+        "[development]": {
+          "credentials": {
+            "url": "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/"
+          }
+        },
+        "[production]": {
+          "credentials": {
+            "destination": "myconnectiontos4",
+            "path": "/sap/opu/odata/sap/API_BUSINESS_PARTNER"
+          }
+        }
+      },
+      "db": {
+        "kind": "sql"
+      },
+      "xsuaa": {
+         "kind": "xsuaa"
+      },
+      "[production]": {
+        "db": {
+          "kind": "hana-cloud"
+        }
       }
-    }
-  }
+    },
+    "hana": {
+      "deploy-format": "hdbtable"
+   }
+  },
+  "bugs": {
+    "url": "https://github.com/SAP-samples/sap-learning-extension-suite/issues"
+  },
+  "homepage": "https://github.com/SAP-samples/sap-learning-extension-suite#readme",
+  "main": "server.js"
 }
